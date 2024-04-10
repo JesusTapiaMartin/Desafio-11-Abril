@@ -20,22 +20,31 @@ public class Login {
 
 
     // ----- Encontrar usuario -----
-    private boolean encontrarUsuario(String usuario, String password) {
-        for (int i = 0; i < contador; i++) {
-            if (usuarios[i][0] != null && usuarios[i][0].equals(usuario) && usuarios[i][1].equals(password)) {
-                return true;
+    public int encontrarUsuario(String usuario) {
+        try {
+            for (int i = 0; i < contador; i++) {
+                if (usuarios[i][0].equals(usuario)) {
+                    return i;
+                }
             }
+        } catch (NullPointerException e) {
+            System.err.println("Error al encontrar usuario");
         }
-        return false;
+        return -1;
+    }
+
+    // ----- Validar Password ----
+
+    public boolean validarPassword(int posicionUsuario, String password) {
+        boolean validacion = false;
+        if (posicionUsuario > -1)
+            validacion = usuarios[posicionUsuario][1].equals(password);
+       return validacion;
     }
 
     // ----- Verificar existencia -----
     public boolean verificarExistencia(String usuario, String password) {
-        boolean existe = encontrarUsuario(usuario, password);
-        if (!existe) {
-            manejarError("Nombre de usuario o contraseña incorrectos");
-        }
-        return existe;
+        return validarPassword(encontrarUsuario(usuario), password);
     }
 
 
