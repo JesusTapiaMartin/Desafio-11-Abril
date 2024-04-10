@@ -8,13 +8,9 @@ public class Login {
 
     // ----- Registrar usuario -----
     public void registrarUsuario(String usuario, String password) {
-        try {
-            usuarios[contador][0] = usuario;
-            usuarios[contador][1] = password;
-            contador++;
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error al registrar usuario: " + e.getMessage());
-        }
+        usuarios[contador][0] = usuario;
+        usuarios[contador][1] = password;
+        contador++;
     }
 
 
@@ -37,8 +33,12 @@ public class Login {
 
     public boolean validarPassword(int posicionUsuario, String password) {
         boolean validacion = false;
-        if (posicionUsuario > -1)
-            validacion = usuarios[posicionUsuario][1].equals(password);
+        try {
+            if (posicionUsuario > -1)
+                validacion = usuarios[posicionUsuario][1].equals(password);
+        } catch (NullPointerException e) {
+            System.err.println("Error al validar contraseña");
+        }
        return validacion;
     }
 
@@ -47,11 +47,6 @@ public class Login {
         return validarPassword(encontrarUsuario(usuario), password);
     }
 
-
-    // ----- Manejar error -----
-    private void manejarError(String mensaje) {
-        System.err.println("Error al verificar credenciales: " + mensaje);
-    }
 
 
     // ----- Iniciar Sesión -----
